@@ -8,7 +8,7 @@
                 <div class="panel-heading">注册</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('register') }}">
+                    <form class="form-horizontal" method="POST" action="{{ url('/register') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -53,12 +53,17 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group {{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password-confirm" class="col-md-4 control-label">确认密码</label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
+                            @if($errors->has('password_confirmation'))
+                                <div class="col-md-6 col-md-offset-4">
+                                    <p class="text-danger text-left"><strong>{{$errors->first('password_confirmation')}}</strong></p>
+                                </div>
+                            @endif
                         </div>
 
                         <div class="form-group">
@@ -74,7 +79,7 @@
                                 <img src="{{captcha_src()}}" style="cursor: pointer" onclick="this.src='{{captcha_src()}}'+Math.random()">
                             </div>
                             @if($errors->has('captcha'))
-                                <div class="col-md-12">
+                                <div class="col-md-6 col-md-offset-4">
                                     <p class="text-danger text-left"><strong>{{$errors->first('captcha')}}</strong></p>
                                 </div>
                             @endif
