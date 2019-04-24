@@ -31,6 +31,8 @@
                     <a class="navbar-brand" href="{{ url('/') }}">
                         {{ config('app.name', 'Laravel') }}
                     </a>
+
+                    <a class="navbar-brand" href="{{ url('/post') }}">博客列表</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -54,11 +56,11 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a href="{{ url('/logout') }}">
-                                            Logout
+                                            退出登录
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ url('/post') }}">
+                                        <a href="{{ url('/post/edit') }}">
                                             写博客
                                         </a>
                                     </li>

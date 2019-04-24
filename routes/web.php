@@ -11,21 +11,30 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::middleware(['log'])->group(function () {
+    Route::get('/', function () {
+        return view('welcome');
+    });
 
-Route::get('/user', 'UserController@index');
+    Route::get('/user', 'UserController@index');
 
 //Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/register', 'Auth\RegisterController@index');
-Route::get('/login', 'Auth\LoginController@index');
-Route::get('/logout', 'Auth\LoginController@logout');
-Route::get('/post', 'PostController@index');
+    Route::get('/register', 'Auth\RegisterController@index');
+    Route::get('/login', 'Auth\LoginController@index');
+    Route::get('/logout', 'Auth\LoginController@logout');
+    Route::get('/post', 'PostController@index');
+    Route::get('/post/edit', 'PostController@edit');
 
-Route::post('/register', 'Auth\RegisterController@register');
-Route::post('/login', 'Auth\LoginController@login');
+
+    Route::post('/post/createOrUpdate', 'PostController@createOrUpdate');
+    Route::post('/register', 'Auth\RegisterController@register');
+    Route::post('/login', 'Auth\LoginController@login');
+    Route::post('/post/delete', 'PostController@delete');
+    Route::post('/post/search', 'PostController@search');
+
+});
+
 

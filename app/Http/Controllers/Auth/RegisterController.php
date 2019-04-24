@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Repository\UserRepository;
 use App\Http\Controllers\Controller;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -72,9 +73,11 @@ class RegisterController extends Controller
             'captcha.captcha' => trans('验证码错误'),
         ]);
         $data = $request->post();
-        $data['ip'] = $request->getClientIp();
-        $this->checkUser($data);
-
+        $data['ip'] = '196.28.1.3';
+        $checkResult = $this->checkUser($data);
+        if (!$checkResult) {
+            return view('error.error', ['message' => '一分钟内不允许多次注册']);
+        }
         return $this->create($data);
     }
 
@@ -82,7 +85,7 @@ class RegisterController extends Controller
     /**
      * @param array $data
      * @return mixed
-     * 创建用户
+     * 创建用户,并缓存注册用户ip
      */
     protected function create(array $data)
     {
@@ -97,16 +100,21 @@ class RegisterController extends Controller
             Cache::put($data['ip'], '1', 1);
         }
         Auth::login($user);
-        return response()->view('home');
+        return response()->redirectTo('post');
     }
 
+    /**
+     * @param array $data
+     * @return bool
+     * 注册限制
+     */
     protected function checkUser(array $data) {
         if (empty($data['ip'])) {
             abort(500);
         }
-
         if (Cache::has($data['ip'])) {
-            return response()->view('errors.error', [], 403);
+            return false;
         };
+        return true;
     }
 }
