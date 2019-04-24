@@ -20,8 +20,12 @@ Route::get('/user', 'UserController@index');
 //Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
 Route::get('/register', 'Auth\RegisterController@index');
-Route::get('/login', 'Auth\RegisterController@index');
+Route::get('/login', 'Auth\LoginController@index');
+Route::get('/logout', 'Auth\LoginController@logout');
+Route::get('/post', 'PostController@index');
 
 Route::post('/register', 'Auth\RegisterController@register');
+Route::post('/login', 'Auth\LoginController@login');
 
