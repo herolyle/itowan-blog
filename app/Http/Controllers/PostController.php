@@ -25,7 +25,7 @@ class PostController extends Controller
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * 博客列表页
+     * 后台博客列表页
      */
     public function index()
     {
@@ -40,7 +40,7 @@ class PostController extends Controller
     /**
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * 博客页面编辑
+     * 后台博客页面编辑
      */
     public function edit(Request $request) {
         $posters = $this->post->getPoster(Auth::user());

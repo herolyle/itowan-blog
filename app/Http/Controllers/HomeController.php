@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Repository\PostRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+
+    protected $post;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(PostRepository $post)
     {
-//        $this->middleware('auth');
+        $this->post = $post;
     }
 
     /**
@@ -24,6 +26,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $allPost = $this->post->paginate();
+
+        return view('home', ['allPost' => $allPost]);
     }
 }

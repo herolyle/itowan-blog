@@ -32,7 +32,9 @@
                         {{ config('app.name', 'Laravel') }}
                     </a>
 
-                    <a class="navbar-brand" href="{{ url('/post') }}">博客列表</a>
+                    <a class="navbar-brand" href="{{ url('/home') }}">全部博客</a>
+                    <a class="navbar-brand" href="{{ url('/post') }}">我的博客</a>
+
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">

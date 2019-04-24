@@ -14,7 +14,5 @@ class UserController extends Controller
     }
 
     public function index() {
-        return 123;
-        return \Response::json($this->user->all());
     }
 }
