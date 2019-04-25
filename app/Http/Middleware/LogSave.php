@@ -27,7 +27,7 @@ class LogSave
     {
         $input = $request->url();
         $strUrl = substr($input, strrpos($input, '/'));
-        if('GET' !== $request->method() && '/login' !== $strUrl && '/register' !== $strUrl){
+        if('/login' !== $strUrl && '/register' !== $strUrl){
             $this->log->create([
                 'user_id' => Auth::user()->id,
                 'email' => Auth::user()->email,
@@ -50,7 +50,6 @@ class LogSave
      */
     public function terminate($request, $response) {
         $strUrl = substr($request->url(), strrpos($request->url(), '/'));
-        if ('GET' !== $request->method()) {
             if (Auth::check() && '/login' == $strUrl) {
                 $type = 1;
                 $user_id =  Auth::user()->id;
@@ -70,6 +69,4 @@ class LogSave
             ];
             $this->log->create($data);
         }
-    }
-
 }
