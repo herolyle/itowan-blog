@@ -19,11 +19,12 @@ class UserController extends Controller
      * 判断是否是超级管理员，如果是才可以继续执行后面的操作
      */
     public function index() {
-        $isSuperAdmin = $this->user->superManager(Auth::user());
-        if ($isSuperAdmin) {
-            return true;
+        $isSuper = false;
+        if (Auth::user() && $this->user->superManager(Auth::user())) {
+            $isSuper = true;
         }
-        return false;
+        return view('welcome', ['isSuper' => $isSuper]);
+
     }
 
     /**
@@ -31,8 +32,11 @@ class UserController extends Controller
      * 返回所有用户
      */
     public function superAdmin() {
-        $user = $this->user->all('id', 'name', 'role');
-        return $user;
+        if (!$this->user->superManager(Auth::user())) {
+            return view('error.error', ['message' => '没有权限']);
+        }
+        $user = $this->user->all(['id', 'name', 'role']);
+        return view('user', ['user' => $user]);
     }
 
     /**

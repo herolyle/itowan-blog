@@ -11,11 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/user', 'UserController@index');
+Route::get('/', 'UserController@index');
+Route::get('/user', 'UserController@superAdmin');
 
 //Auth::routes();
 
