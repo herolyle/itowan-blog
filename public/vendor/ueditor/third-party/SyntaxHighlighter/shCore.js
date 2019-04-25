@@ -828,7 +828,7 @@ if (typeof(SyntaxHighlighter) == 'undefined') var SyntaxHighlighter = function()
             },
 
             /**
-             * Event handler for a toolbar anchor.
+             * logEvent handler for a toolbar anchor.
              */
             handler: function(e)
             {
@@ -3571,7 +3571,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 						'Boolean ByRef Byte ByVal Call Case Catch CBool CByte CChar CDate ' +
 						'CDec CDbl Char CInt Class CLng CObj Const CShort CSng CStr CType ' +
 						'Date Decimal Declare Default Delegate Dim DirectCast Do Double Each ' +
-						'Else ElseIf End Enum Erase Error Event Exit False Finally For Friend ' +
+						'Else ElseIf End Enum Erase Error logEvent Exit False Finally For Friend ' +
 						'Function Get GetType GoSub GoTo Handles If Implements Imports In ' +
 						'Inherits Integer Interface Is Let Lib Like Long Loop Me Mod Module ' +
 						'MustInherit MustOverride MyBase MyClass Namespace New Next Not Nothing ' +

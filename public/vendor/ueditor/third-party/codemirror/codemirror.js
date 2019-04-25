@@ -2566,7 +2566,7 @@ var CodeMirror = (function() {
         else if (e.button & 4) return 2;
     }
 
-    // Event handler registration. If disconnect is true, it'll return a
+    // logEvent handler registration. If disconnect is true, it'll return a
     // function that unregisters the handler.
     function connect(node, type, handler, disconnect) {
         if (typeof node.addEventListener == "function") {

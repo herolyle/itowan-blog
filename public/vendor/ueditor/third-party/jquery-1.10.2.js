@@ -4945,7 +4945,7 @@ jQuery.event = {
 		}
 		ontype = type.indexOf(":") < 0 && "on" + type;
 
-		// Caller can pass in a jQuery.Event object, Object, or just an event type string
+		// Caller can pass in a jQuery.logEvent object, Object, or just an event type string
 		event = event[ jQuery.expando ] ?
 			event :
 			new jQuery.Event( type, typeof event === "object" && event );
@@ -5055,7 +5055,7 @@ jQuery.event = {
 
 	dispatch: function( event ) {
 
-		// Make a writable jQuery.Event from the native event object
+		// Make a writable jQuery.logEvent from the native event object
 		event = jQuery.event.fix( event );
 
 		var i, ret, handleObj, matched, j,
@@ -5064,7 +5064,7 @@ jQuery.event = {
 			handlers = ( jQuery._data( this, "events" ) || {} )[ event.type ] || [],
 			special = jQuery.event.special[ event.type ] || {};
 
-		// Use the fix-ed jQuery.Event rather than the (read-only) native event
+		// Use the fix-ed jQuery.logEvent rather than the (read-only) native event
 		args[0] = event;
 		event.delegateTarget = this;
 
@@ -5364,7 +5364,7 @@ jQuery.Event = function( src, props ) {
 		return new jQuery.Event( src, props );
 	}
 
-	// Event object
+	// logEvent object
 	if ( src && src.type ) {
 		this.originalEvent = src;
 		this.type = src.type;
@@ -5374,7 +5374,7 @@ jQuery.Event = function( src, props ) {
 		this.isDefaultPrevented = ( src.defaultPrevented || src.returnValue === false ||
 			src.getPreventDefault && src.getPreventDefault() ) ? returnTrue : returnFalse;
 
-	// Event type
+	// logEvent type
 	} else {
 		this.type = src;
 	}
@@ -5391,7 +5391,7 @@ jQuery.Event = function( src, props ) {
 	this[ jQuery.expando ] = true;
 };
 
-// jQuery.Event is based on DOM3 Events as specified by the ECMAScript Language Binding
+// jQuery.logEvent is based on DOM3 Events as specified by the ECMAScript Language Binding
 // http://www.w3.org/TR/2003/WD-DOM-Level-3-Events-20030331/ecma-script-binding.html
 jQuery.Event.prototype = {
 	isDefaultPrevented: returnFalse,
@@ -5657,7 +5657,7 @@ jQuery.fn.extend({
 	off: function( types, selector, fn ) {
 		var handleObj, type;
 		if ( types && types.preventDefault && types.handleObj ) {
-			// ( event )  dispatched jQuery.Event
+			// ( event )  dispatched jQuery.logEvent
 			handleObj = types.handleObj;
 			jQuery( types.delegateTarget ).off(
 				handleObj.namespace ? handleObj.origType + "." + handleObj.namespace : handleObj.origType,
@@ -6374,7 +6374,7 @@ function fixCloneNodeIssues( src, dest ) {
 			jQuery.removeEvent( dest, e, data.handle );
 		}
 
-		// Event data gets referenced instead of copied if the expando gets copied too
+		// logEvent data gets referenced instead of copied if the expando gets copied too
 		dest.removeAttribute( jQuery.expando );
 	}
 

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Requests\RegisterRequest;
 use App\Repository\UserRepository;
 use App\Http\Controllers\Controller;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -55,23 +55,8 @@ class RegisterController extends Controller
      * @return mixed
      * 注册表单验证
      */
-    protected function register(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required|max:16',
-            'email' => 'email|unique:user',
-            'password' => 'required|',
-            'password_confirmation' => 'required|same:password',
-            'captcha' => 'required|captcha',
-        ],[
-            'name.max'=> trans("昵称过长"),
-            'email.unique'=> trans("email已经注册"),
-            'password.required'=> trans("密码不能为空"),
-            'password_confirmation.required'=> trans("确认密码不能为空"),
-            'password_confirmation.same'=> trans('密码与确认密码不匹配'),
-            'captcha.required' => trans('请填写验证码'),
-            'captcha.captcha' => trans('验证码错误'),
-        ]);
+    protected function register(RegisterRequest $request) {
+
         $data = $request->post();
         $data['ip'] = '196.28.1.3';
         $checkResult = $this->checkUser($data);
@@ -87,8 +72,7 @@ class RegisterController extends Controller
      * @return mixed
      * 创建用户,并缓存注册用户ip
      */
-    protected function create(array $data)
-    {
+    protected function create(array $data) {
         $user = $this->user->create([
             'name' => $data['name'],
             'email' => $data['email'],

@@ -3541,7 +3541,7 @@ var domUtils = dom.domUtils = {
     /**
      * 阻止事件默认行为
      * @method preventDefault
-     * @param { Event } evt 需要阻止默认行为的事件对象
+     * @param { logEvent.php } evt 需要阻止默认行为的事件对象
      * @example
      * ```javascript
      * UE.dom.domUtils.preventDefault( evt );

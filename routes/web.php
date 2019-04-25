@@ -26,13 +26,10 @@ Route::get('/post', 'PostController@index');
 Route::get('/post/edit', 'PostController@edit');
 
 
-
-Route::middleware(['log'])->group(function () {
-    Route::post('/post/createOrUpdate', 'PostController@createOrUpdate');
-    Route::post('/register', 'Auth\RegisterController@register');
-    Route::post('/login', 'Auth\LoginController@login');
-    Route::post('/post/delete', 'PostController@delete');
-    Route::post('/post/search', 'PostController@search');
-});
+Route::post('/login', 'Auth\LoginController@login');
+Route::post('/post/createOrUpdate', 'PostController@createOrUpdate');
+Route::post('/register', 'Auth\RegisterController@register');
+Route::post('/post/delete', 'PostController@delete');
+Route::post('/post/search', 'PostController@search');
 
 

@@ -9,7 +9,7 @@
  */
 
 // JSLint options:
-/*global Effect, Class, Event, Element, $, $$, $A */
+/*global Effect, Class, logEvent, Element, $, $$, $A */
 
 // Adapter interface between prototype and the Highcharts charting library
 var HighchartsAdapter = (function () {

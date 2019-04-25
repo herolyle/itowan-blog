@@ -9400,7 +9400,7 @@ Pointer.prototype = {
 				}
 			});
 		
-		// Event type is touchmove, handle panning and pinching
+		// logEvent type is touchmove, handle panning and pinching
 		} else if (pinchDown.length) { // can be 0 when releasing, if touchend fires first
 			
 

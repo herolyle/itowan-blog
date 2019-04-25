@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Model\Post;
-use App\Model\User;
+use App\Repositories\Criteria\PostCriteria;
+use App\Repositories\Criteria\UserCriteria;
 use App\Repository\PostRepository;
+use App\Repository\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,15 +14,20 @@ class PostController extends Controller
 {
 
     protected $post;
+    protected $user;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(PostRepository $post)
+    public function __construct(UserRepository $user, PostRepository $post)
     {
         $this->middleware('auth');
         $this->post = $post;
+        $this->user = $user;
+
+        $this->post->pushCriteria(new PostCriteria());
+        $this->user->pushCriteria(new UserCriteria());
     }
 
     /**
@@ -29,11 +36,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        if ($this->post->isSuperUser(Auth::user())) {
-            $myPost = $this->post->paginate(10);
-        } else {
-            $myPost = $this->post->paginateBy('user_id', Auth::user()->id);
-        }
+        $myPost =  $this->post->paginate(10);
         return view('post.index', ['myPost' => $myPost]);
     }
 
@@ -43,15 +46,12 @@ class PostController extends Controller
      * 后台博客页面编辑
      */
     public function edit(Request $request) {
-        $posters = $this->post->getPoster(Auth::user());
+        $posters = $this->user->all();
         $id = $request->get('id') ?? '';
         if ($id) {
             $post = $this->post->find($id);
             if (!$post) {
                 return view('error.error', ['message' => '没有找到该文章']);
-            }
-            if (!$this->post->checkPostUser($post, Auth::user())) {
-                return view('error.error', ['message' => '没有权限']);
             }
             return view('post.post', ['post' => $post, 'posters' => $posters, 'default' => Auth::user()]);
         }
@@ -65,21 +65,18 @@ class PostController extends Controller
      */
     public function createOrUpdate(Request $request) {
         $data = $request->post();
-        if (empty($data['id'])) {
-            $this->post->create([
-                'user_id' => $data['user_id'],
-                'title' => $data['title'],
-                'describe' => $data['describe'],
-                'content' => $data['describe'],
-            ]);
-        }
-        $this->post->update([
+        $postData = [
             'user_id' => $data['user_id'],
-            'title' => $data['title'],
-            'describe' => $data['describe'],
-            'content' => $data['describe'],
-        ], $data['id']);
-
+            'title' => $data['title'] ?? '',
+            'describe' => $data['describe'] ?? '',
+            'content' => $data['content'] ?? '',
+        ];
+        if (empty($data['id'])) {
+            $this->post->create($postData);
+        } else {
+            $post = $this->post->find($data['id']);
+            $post->update($postData);
+        }
         return response()->redirectTo('post');
     }
 
@@ -95,9 +92,11 @@ class PostController extends Controller
             if (!$post) {
                 return view('error.error', ['message' => '没有找到该文章']);
             }
-            $this->post->delete($id);
+            $post = $this->post->find($id);
+            $post->delete($id);
             return response()->redirectTo('post');
         }
+        return view('error.error', ['message' => '没有找到该文章']);
     }
 
     /**
@@ -107,9 +106,7 @@ class PostController extends Controller
      */
     public function search(Request $request) {
         $search = $request->post('search');
-        $result = Post::where([['title', 'like', '%' . $search . '%']])->orWhereHas('user', function ($query) use ($search) {
-            $query->where([['name', 'like', '%' . $search . '%']]);
-        })->paginate(10);
+        $result = $this->post->searchPost($search);
         return view('post.index', ['myPost' => $result]);
     }
 }

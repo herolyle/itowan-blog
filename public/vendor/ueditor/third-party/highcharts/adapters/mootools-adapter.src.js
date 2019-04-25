@@ -8,7 +8,7 @@
  */
 
 // JSLint options:
-/*global Fx, $, $extend, $each, $merge, Events, Event, DOMEvent */
+/*global Fx, $, $extend, $each, $merge, Events, logEvent, DOMEvent */
 
 (function () {
 
@@ -16,7 +16,7 @@ var win = window,
 	doc = document,
 	mooVersion = win.MooTools.version.substring(0, 3), // Get the first three characters of the version number
 	legacy = mooVersion === '1.2' || mooVersion === '1.1', // 1.1 && 1.2 considered legacy, 1.3 is not.
-	legacyEvent = legacy || mooVersion === '1.3', // In versions 1.1 - 1.3 the event class is named Event, in newer versions it is named DOMEvent.
+	legacyEvent = legacy || mooVersion === '1.3', // In versions 1.1 - 1.3 the event class is named logEvent, in newer versions it is named DOMEvent.
 	$extend = win.$extend || function () {
 		return Object.append.apply(Object, arguments);
 	};
@@ -219,8 +219,8 @@ win.HighchartsAdapter = {
 	/**
 	 * Add an event listener
 	 * @param {Object} el HTML element or custom object
-	 * @param {String} type Event type
-	 * @param {Function} fn Event handler
+	 * @param {String} type logEvent type
+	 * @param {Function} fn logEvent handler
 	 */
 	addEvent: function (el, type, fn) {
 		if (typeof type === 'string') { // chart broke due to el being string, type function

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\LogEvent;
 use App\Http\Controllers\Controller;
+use App\Listeners\LogEventListener;
 use App\Repository\UserRepository;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -26,6 +29,8 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     protected $user;
+    public $maxAttempts = 2;
+    public $decayMinutes = 10;
     /**
      * Where to redirect users after login.
      *
@@ -59,28 +64,24 @@ class LoginController extends Controller
      * 登录验证
      */
     public function login(Request $request) {
-        $data = [
-            'email' => $request->email,
-            'password' => $request->password
-        ];
-        $time = \cache($data['email']);
-        if ($time && $time >= 5) {
+        if ($this->hasTooManyLoginAttempts($request)) {
             return view('error.error', ['message' => '密码错误次数过多']);
-        }
-        $rightUser = Auth::attempt($data);
-        if ($rightUser) {
-            return redirect($this->redirectTo);
-        }
-        if (!$time) {
-            \cache([$data['email'] => 1], 10);
-            return view('error.error', ['message' => '密码错误']);
-        }
-
-        if ($time && $time < 5) {
-            \cache([$data['email'] => ++$time], 10);
-            return view('error.error', ['message' => '密码错误']);
+        } else {
+            $data = [
+                'email' => $request->email,
+                'password' => $request->password
+            ];
+            $rightUser = Auth::attempt($data);
+            if ($rightUser) {
+                event(new LogEvent($request, Auth::guard()->user()));
+                return redirect($this->redirectTo);
+            } else {
+                event(new LogEvent($request));
+                return view('error.error', ['message' => '密码错误']);
+            }
         }
     }
+
 
     /**
      * @return \Illuminate\Http\Response
