@@ -36,6 +36,15 @@
                     <a class="navbar-brand" href="{{ url('/post') }}">我的博客</a>
 
                 </div>
+                <form method="POST" action="{{ url('/post/search') }}">
+                    {{ csrf_field() }}
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name="search" required autofocus value="">
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary">搜索</button>
+                    </div>
+                </form>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->

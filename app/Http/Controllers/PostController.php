@@ -106,10 +106,10 @@ class PostController extends Controller
      * 搜索
      */
     public function search(Request $request) {
-        $title = $request->post('title');
-        $poster = $request->post('poster');
-        $userId = User::where('name', 'like', $poster)->get();
-        $poster = Post::where('user_id', $userId)->orWhere('title', 'like', $title)->paginate(10);
-        return view('post.index', ['myPost' => $poster]);
+        $search = $request->post('search');
+        $result = Post::where([['title', 'like', '%' . $search . '%']])->orWhereHas('user', function ($query) use ($search) {
+            $query->where([['name', 'like', '%' . $search . '%']]);
+        })->paginate(10);
+        return view('post.index', ['myPost' => $result]);
     }
 }
