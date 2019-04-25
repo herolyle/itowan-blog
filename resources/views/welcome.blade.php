@@ -86,7 +86,7 @@
                     <a href="{{ url('/post') }}">博客</a>
                     <a href="{{ url('/login') }}">登录</a>
                     <a href="{{ url('/login') }}">注册</a>
-                    @if($isSuper)
+                    @if($isSuper > 1)
                     <a href="{{ url('/user') }}">超级管理员</a>
                     @endif
                 </div>

@@ -34,8 +34,7 @@ class PostController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * 后台博客列表页
      */
-    public function index()
-    {
+    public function index() {
         $myPost =  $this->post->paginate(10);
         return view('post.index', ['myPost' => $myPost]);
     }
