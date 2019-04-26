@@ -5,7 +5,8 @@ use Bosnadev\Repositories\Criteria\Criteria;
 use Bosnadev\Repositories\Contracts\RepositoryInterface as Repository;
 use Illuminate\Support\Facades\Auth;
 
-class UserCriteria extends Criteria {
+class UserCriteria extends Criteria
+{
 
     /**
      * @param $model

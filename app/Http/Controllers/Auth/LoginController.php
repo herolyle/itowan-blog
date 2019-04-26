@@ -53,7 +53,8 @@ class LoginController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * 登录页面
      */
-    public function index() {
+    public function index()
+    {
         return view('auth.login');
     }
 
@@ -63,7 +64,8 @@ class LoginController extends Controller
      * @throws \Exception
      * 登录验证
      */
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         if ($this->hasTooManyLoginAttempts($request)) {
             return view('error.error', ['message' => '密码错误次数过多']);
         } else {

@@ -46,7 +46,8 @@ class RegisterController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * 注册页面
      */
-    public function index() {
+    public function index()
+    {
         return view('auth.register');
     }
 
@@ -55,7 +56,8 @@ class RegisterController extends Controller
      * @return mixed
      * 注册表单验证
      */
-    protected function register(RegisterRequest $request) {
+    protected function register(RegisterRequest $request)
+    {
 
         $data = $request->post();
         $data['ip'] = '196.28.1.3';
@@ -72,7 +74,8 @@ class RegisterController extends Controller
      * @return mixed
      * 创建用户,并缓存注册用户ip
      */
-    protected function create(array $data) {
+    protected function create(array $data)
+    {
         $user = $this->user->create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -92,7 +95,8 @@ class RegisterController extends Controller
      * @return bool
      * 注册限制
      */
-    protected function checkUser(array $data) {
+    protected function checkUser(array $data)
+    {
         if (empty($data['ip'])) {
             abort(500);
         }

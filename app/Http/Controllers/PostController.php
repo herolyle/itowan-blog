@@ -29,7 +29,8 @@ class PostController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * 后台博客列表页
      */
-    public function index() {
+    public function index()
+    {
         $myPost =  $this->post->paginate(10);
         return view('post.index', ['myPost' => $myPost]);
     }
@@ -39,7 +40,8 @@ class PostController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * 后台博客页面编辑
      */
-    public function edit(Request $request, $id = '') {
+    public function edit(Request $request, $id = '')
+    {
         $posters = $this->user->all();
         if ($id) {
             $post = $this->post->find($id);
@@ -56,7 +58,8 @@ class PostController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * 创建或更新博客
      */
-    public function createOrUpdate(PostRequest $request) {
+    public function createOrUpdate(PostRequest $request)
+    {
         $data = $request->post();
         $postData = [
             'user_id' => $data['user_id'],
@@ -78,7 +81,8 @@ class PostController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|mixed
      * 删除文章
      */
-    public function delete(Request $request) {
+    public function delete(Request $request)
+    {
         $id = $request->post('id') ?? '';
         $post = $this->post->find($id);
         if (!$post) {

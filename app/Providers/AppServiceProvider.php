@@ -18,7 +18,8 @@ class AppServiceProvider extends ServiceProvider
      *
      * 注入统一的权限RoleCriteria
      */
-    public function boot() {
+    public function boot()
+    {
         Post::observe(PostObserver::class);
 
         $this->app->afterResolving(Repository::class, function(Repository $object, $app) {

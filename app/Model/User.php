@@ -29,7 +29,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function scopeByRole() {
+    public function scopeByRole()
+    {
         $user = Auth::user();
         if ($user && $user->role == 0) {
             return $this;

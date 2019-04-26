@@ -37,7 +37,8 @@ class LogEventListener
      * @param $user
      * @param $request
      */
-    public function loginLog($user, $request) {
+    public function loginLog($user, $request)
+    {
         if ($user) {
             $userId = $user->id;
             $email = $user->email;

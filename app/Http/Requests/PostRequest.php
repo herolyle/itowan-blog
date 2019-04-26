@@ -21,14 +21,16 @@ class PostRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             'title' => 'required|max:40',
             'describe' => 'required|max:150',
         ];
     }
 
-    public function messages() {
+    public function messages()
+    {
         return [
             'title.max'=> trans("标题过长"),
             'describe.max'=> trans("简介过长"),

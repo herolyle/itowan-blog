@@ -13,7 +13,8 @@ class PostObserver
     protected $log;
     protected $request;
     protected $logStore;
-    public function __construct(LogRepository $log, Request $request, LogStore $logStore) {
+    public function __construct(LogRepository $log, Request $request, LogStore $logStore)
+    {
         $this->log = $log;
         $this->request = $request;
         $this->logStore = $logStore;
@@ -23,7 +24,8 @@ class PostObserver
      * @param Post $post
      * 更新记录
      */
-    public function updated(Post $post) {
+    public function updated(Post $post)
+    {
         $change = $post->getDirty();
         $old = $post->getOriginal();
         $data = [

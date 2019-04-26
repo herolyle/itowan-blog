@@ -11,7 +11,8 @@ class RegisterRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize() {
+    public function authorize()
+    {
         return true;
     }
 
@@ -20,7 +21,8 @@ class RegisterRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             'name' => 'required|max:16',
             'email' => 'email|unique:user',
@@ -30,7 +32,8 @@ class RegisterRequest extends FormRequest
         ];
     }
 
-    public function messages() {
+    public function messages()
+    {
         return [
             'name.max'=> trans("昵称过长"),
             'email.unique'=> trans("email已经注册"),

@@ -11,8 +11,10 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function __construct() {
-        $this->middleware(function ($request, $next) {
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next)
+        {
             if (\Auth::guard($this->guard)->check()) {
                 $this->user = \Auth::guard($this->guard)->user();
             }
