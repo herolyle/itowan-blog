@@ -39,9 +39,8 @@ class PostController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * 后台博客页面编辑
      */
-    public function edit(Request $request) {
+    public function edit(Request $request, $id = '') {
         $posters = $this->user->all();
-        $id = $request->get('id') ?? '';
         if ($id) {
             $post = $this->post->find($id);
             if (!$post) {

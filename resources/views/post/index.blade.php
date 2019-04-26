@@ -17,7 +17,7 @@
                         <div class="container">
                             @foreach ($myPost as $post)
                                 <h2 class="post-title">
-                                    <a href="{{ url('/post/edit?id='.$post->id) }}">{{ $post->title }}</a>
+                                    <a href="{{ url('/post/edit/'.$post->id) }}">{{ $post->title }}</a>
                                 </h2>
                                 <h5 class="post-describe">
                                     简介：{{ $post->describe }}

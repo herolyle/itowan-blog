@@ -23,7 +23,7 @@ Route::get('/register', 'Auth\RegisterController@index');
 Route::get('/login', 'Auth\LoginController@index');
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/post', 'PostController@index');
-Route::get('/post/edit', 'PostController@edit');
+Route::get('/post/edit/{id?}', 'PostController@edit');
 
 
 Route::post('/login', 'Auth\LoginController@login');
