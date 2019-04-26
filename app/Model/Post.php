@@ -13,18 +13,22 @@ class Post extends Model
         'user_id', 'title', 'describe', 'content',
     ];
 
+    public $fieldname = [
+
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function scopeByRole()
-    {
-        $user = Auth::user();
-        if ($user && $user->role == 0) {
-            return $this;
-        }
-        return $this->where('user_id', $user->id);
-    }
+//    public function scopeByRole()
+//    {
+//        $user = Auth::user();
+//        if ($user && $user->role == 0) {
+//            return $this;
+//        }
+//        return $this->where('user_id', $user->id);
+//    }
 
 }

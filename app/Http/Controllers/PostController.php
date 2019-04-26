@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+use App\Repositories\Criteria\PostCriteria;
+use App\Repositories\Criteria\UserCriteria;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Illuminate\Http\Request;
@@ -31,6 +33,7 @@ class PostController extends Controller
      */
     public function index()
     {
+        $this->post->pushCriteria(new PostCriteria());
         $myPost =  $this->post->paginate(10);
         return view('post.index', ['myPost' => $myPost]);
     }
@@ -42,6 +45,7 @@ class PostController extends Controller
      */
     public function edit(Request $request, $id = '')
     {
+        $this->user->pushCriteria(new UserCriteria());
         $posters = $this->user->all();
         if ($id) {
             $post = $this->post->find($id);
@@ -56,6 +60,7 @@ class PostController extends Controller
     /**
      * @param PostRequest $request
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      * 创建或更新博客
      */
     public function createOrUpdate(PostRequest $request)
@@ -71,6 +76,7 @@ class PostController extends Controller
             $this->post->create($postData);
         } else {
             $post = $this->post->find($data['id']);
+            $this->authorize('update', $post);
             $post->update($postData);
         }
         return response()->redirectTo('post');
@@ -78,7 +84,8 @@ class PostController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|mixed
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      * 删除文章
      */
     public function delete(Request $request)
@@ -89,6 +96,7 @@ class PostController extends Controller
             return view('error.error', ['message' => '没有找到该文章']);
         }
         $post = $this->post->find($id);
+        $this->authorize('delete', $post);
         $post->delete($id);
         return response()->redirectTo('post');
     }
