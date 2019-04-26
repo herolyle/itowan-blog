@@ -12,11 +12,5 @@ class UserCriteria extends Criteria {
      * @param RepositoryInterface $repository
      * @return mixed
      */
-    public function apply($model, Repository $repository) {
-        $user = Auth::user();
-        if ($user && $user->role == 0) {
-            return $model;
-        }
-        return $model->where('id', $user->id);
-    }
+    public function apply($model, Repository $repository) {}
 }

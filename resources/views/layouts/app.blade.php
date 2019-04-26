@@ -36,10 +36,10 @@
                     <a class="navbar-brand" href="{{ url('/post') }}">我的博客</a>
 
                 </div>
-                <form method="POST" action="{{ url('/post/search') }}">
-                    {{ csrf_field() }}
+                <form method="get" action="{{ url('/post') }}">
+{{--                    {{ csrf_field() }}--}}
                     <div class="col-md-3">
-                        <input type="text" class="form-control" name="search" required autofocus value="">
+                        <input class="form-control" name="search"  type="text">
                     </div>
                     <div class="col-md-3">
                         <button type="submit" class="btn btn-primary">搜索</button>

@@ -27,9 +27,12 @@ Route::get('/post/edit', 'PostController@edit');
 
 
 Route::post('/login', 'Auth\LoginController@login');
-Route::post('/post/createOrUpdate', 'PostController@createOrUpdate');
 Route::post('/register', 'Auth\RegisterController@register');
-Route::post('/post/delete', 'PostController@delete');
-Route::post('/post/search', 'PostController@search');
+
+Route::middleware(['log'])->group(function() {
+    Route::post('/post/createOrUpdate', 'PostController@createOrUpdate');
+    Route::post('/post/delete', 'PostController@delete');
+});
+
 
 

@@ -9,21 +9,9 @@ class PostRepository extends Repository {
         return Post::class;
     }
 
-    public function boot(){
-        $this->pushCriteria(app('App\Repositories\Criteria\PostCriteria'));
-    }
-
-    /**
-     * @param $column
-     * @param $value
-     * @param int $perPage
-     * @param array $columns
-     * @return mixed
-     * 分页
-     */
-    public function paginateBy($column, $value, $perPage = 10, $columns = array('*')) {
-        return $this->model->where($column, $value)->paginate($perPage, $columns);
-    }
+    protected $searchable = [
+        'title' => 'like',
+    ];
 
     /**
      * @param $search

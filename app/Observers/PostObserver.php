@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Model\Post;
 use App\Repository\LogRepository;
+use App\Tool\LogStore;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,9 +12,11 @@ class PostObserver
 {
     protected $log;
     protected $request;
-    public function __construct(LogRepository $log, Request $request) {
+    protected $logStore;
+    public function __construct(LogRepository $log, Request $request, LogStore $logStore) {
         $this->log = $log;
         $this->request = $request;
+        $this->logStore = $logStore;
     }
 
     /**
@@ -23,14 +26,14 @@ class PostObserver
     public function updated(Post $post) {
         $change = $post->getDirty();
         $old = $post->getOriginal();
-
-        $this->log->create([
+        $data = [
             'user_id' => Auth::user()->id,
             'email' => Auth::user()->email,
             'ip' => $this->request->getClientIp(),
             'type' => 3,
             'change_content' => json_encode([$change, $old]),
-        ]);
+        ];
+        $this->logStore->add($data);
     }
 
     /**
@@ -39,13 +42,14 @@ class PostObserver
      */
     public function created(Post $post)
     {
-        $this->log->create([
+        $data = [
             'user_id' => Auth::user()->id,
             'email' => Auth::user()->email,
             'ip' => $this->request->getClientIp(),
             'type' => 4,
             'change_content' => json_encode($post),
-        ]);
+        ];
+        $this->logStore->add($data);
     }
 
     /**
@@ -54,12 +58,13 @@ class PostObserver
      */
     public function deleting(Post $post)
     {
-        $this->log->create([
+        $data = [
             'user_id' => Auth::user()->id,
             'email' => Auth::user()->email,
             'ip' => $this->request->getClientIp(),
             'type' => 5,
             'change_content' => json_encode($post),
-        ]);
+        ];
+        $this->logStore->add($data);
     }
 }

@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\Criteria\UserCriteria;
 use App\Repository\UserRepository;
 
 class UserController extends Controller
 {
     private $user;
-    private $count;
 
     public function __construct(UserRepository $user) {
         $this->user = $user;
-        $this->user->pushCriteria(new UserCriteria());
     }
 
     /**

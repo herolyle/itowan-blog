@@ -17,6 +17,11 @@
 
                             <div class="col-md-8">
                                 <input id="title" type="text" class="form-control" name="title" required autofocus value="{{isset($post) ? $post->title : ''}}">
+                                @if ($errors->has('title'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('title') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -25,6 +30,11 @@
 
                             <div class="col-md-8">
                                     <input id="describe" type="text" class="form-control" name="describe" autofocus  value="{{isset($post) ? $post->describe : ''}}">
+                                @if ($errors->has('describe'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('describe') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
